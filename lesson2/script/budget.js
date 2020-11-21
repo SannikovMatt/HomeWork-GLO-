@@ -5,11 +5,13 @@ let income = 1000;
 let addExpenses = 'интернет, аренда, машина';
 let deposit = true;
 let mission = 1000000;
-let period = 120;
+let period = 12;
 
 console.log(money);
 console.log(income);
 console.log(deposit);
+
+console.log(addExpenses.length);
 
 console.log('Период равен: ' + period + ' месяцев');
 console.log('Цель заработать: ' + mission + ' евро');
