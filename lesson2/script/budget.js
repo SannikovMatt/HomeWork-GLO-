@@ -1,17 +1,17 @@
 
 
-let money = 2100;
-let income = 1000;
-let addExpenses = 'интернет, аренда, машина';
-let deposit = true;
-let mission = 1000000;
-let period = 12;
+let money = 2100,
+    income = 'Аренда',
+    addExpenses = 'интернет, аренда, машина',
+    deposit = true,
+    mission = 1000000,
+    period = 12;//Месяцев 12
 
 console.log(money);
 console.log(income);
 console.log(deposit);
 
-console.log(addExpenses.length);
+console.log(addExpenses.length);//Вывел длинну строки
 
 console.log('Период равен: ' + period + ' месяцев');
 console.log('Цель заработать: ' + mission + ' евро');
@@ -25,7 +25,7 @@ addExpensesArr = addExpenses.split(', ');
 console.log(addExpensesArr);
 
 
-let budgetDay = money /30;
+let budgetDay = money / 30;
 
 console.log(budgetDay);
 
