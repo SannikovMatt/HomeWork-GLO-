@@ -7,6 +7,10 @@ let money = 2100,
     mission = 1000000,
     period = 12;//Месяцев 12
 
+let budgetMonth;
+
+
+
 console.log(money);
 console.log(income);
 console.log(deposit);
@@ -35,13 +39,21 @@ console.log(budgetDay);
 
 //LESSON ____3
 
+let expenses1,
+    amaunt1,
+    expenses2,
+    amaunt2,
+    reachMissionMonths;
+
+
+
 
 // Спрашиваем у пользователя “Ваш месячный доход?” и результат сохраняем в переменную money
 money = parseFloat(prompt('Напишите числом ваш месячный доход', 0));
 
 /*Спросить у пользователя “Перечислите возможные расходы за 
 рассчитываемый период через запятую” сохранить в переменную addExpenses (пример: "Квартплата, проездной, кредит")*/
-addExpenses = prompt('Перечислите возможные расходы за рассчитываемый период через запятую');
+addExpenses = prompt('Перечислите возможные расходы за рассчитываемый период через запятую', 'кураторство');
 
 
 /*Спросить у пользователя “Есть ли у вас депозит в банке?” 
@@ -50,17 +62,17 @@ deposit = confirm('Есть ли в у вас депозит в банке?');
 
 
 // Спросить у пользователя по 2 раза каждый вопрос и записать ответы в разные переменные 
-let expenses1 = prompt('Введите обязательную статью расходов?');
-let amaunt1 = parseFloat(prompt('Во сколько это обойдется?'));
+expenses1 = prompt('Введите обязательную статью расходов?', 'газ');
+amaunt1 = parseFloat(prompt('Во сколько это обойдется?', 1000));
 
-let expenses2 = prompt('Введите обязательную статью расходов?');
-let amaunt2 = parseFloat(prompt('Во сколько это обойдется?'));
+expenses2 = prompt('Введите обязательную статью расходов?', 'вода');
+amaunt2 = parseFloat(prompt('Во сколько это обойдется?', 1000));
 
 
 /*Вычислить бюджет на месяц, учитывая обязательные расходы, 
 сохранить в новую переменную budgetMonth и вывести результат в консоль*/
 
-let budgetMonth = money - amaunt1 - amaunt2;
+budgetMonth = money - amaunt1 - amaunt2;
 
 console.log("Бюджет на месяц: " + budgetMonth);
 
@@ -68,14 +80,14 @@ console.log("Бюджет на месяц: " + budgetMonth);
 /* Зная budgetMonth, посчитать за сколько месяцев будет достигнута цель mission, 
 вывести в консоль, округляя в большую сторону (методы объекта Math в помощь) */
 
-let reachMissionMonths = Math.ceil(mission / budgetMonth);
+reachMissionMonths = Math.ceil(mission / budgetMonth);
 
 console.log("Вы достигнете цель за: " + reachMissionMonths + " месяцев");
 
 /*Поправить budgetDay учитывая бюджет на месяц, а не месячный доход. 
 Вывести в консоль  округлив в меньшую сторону */
 
-budgetDay =  budgetMonth / 30;
+budgetDay = budgetMonth / 30;
 
 console.log("Бюджет на день " + Math.floor(budgetDay));
 
@@ -92,12 +104,12 @@ if (budgetDay >= 1200) {
     console.log('У вас средний уровень дохода');
 
 
-// Если budgetDay меньше 600 и больше 0 то в консоль вывести сообщение “К сожалению у вас уровень дохода ниже среднего”
+    // Если budgetDay меньше 600 и больше 0 то в консоль вывести сообщение “К сожалению у вас уровень дохода ниже среднего”
 } else if (budgetDay >= 0 && budgetDay <= 600) {
     console.log('К сожалению у вас уровень дохода ниже среднего');
 
     //Если отрицательное значение то вывести “Что то пошло не так”
-}else if(budgetDay < 0){
+} else if (budgetDay < 0) {
 
     console.log('Что то пошло не так');
 }
