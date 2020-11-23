@@ -62,6 +62,7 @@ let amaunt2 = parseFloat(prompt('Во сколько это обойдется?'
 
 let budgetMonth = money - amaunt1 - amaunt2;
 
+console.log("Бюджет на месяц: " + budgetMonth);
 
 
 /* Зная budgetMonth, посчитать за сколько месяцев будет достигнута цель mission, 
@@ -69,14 +70,14 @@ let budgetMonth = money - amaunt1 - amaunt2;
 
 let reachMissionMonths = Math.ceil(mission / budgetMonth);
 
-console.log("Вы достигнете цели за: " + reachMissionMonths + " месяцев");
+console.log("Вы достигнете цель за: " + reachMissionMonths + " месяцев");
 
 /*Поправить budgetDay учитывая бюджет на месяц, а не месячный доход. 
 Вывести в консоль  округлив в меньшую сторону */
 
 budgetDay =  budgetMonth / 30;
 
-console.log(Math.floor(budgetDay));
+console.log("Бюджет на день " + Math.floor(budgetDay));
 
 
 // Написать конструкцию условий (расчеты приведены в рублях)
