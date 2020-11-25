@@ -9,13 +9,46 @@ function getType(data) {
 }
 
 
+function isNumber(n) {
+
+    return !isNaN(parseFloat(n)) && isFinite(n);
+
+}
+
+function start() {
+    let money;
+    do{money = parseFloat(prompt('Напишите числом ваш месячный доход'));}
+    while (!isNumber(money));       
+    
+  return money;
+
+}
+
+
 
 //Объявить функцию getExpensesMonth. 
 //Функция возвращает сумму всех обязательных расходов за месяц
-function getExpensesMonth(costs1, consts2) {
+function getExpensesMonth() {
+    let sum = 0;
+    let rightSum;
 
-    return costs1 + consts2;
+    for (let i = 0; i < 2; i++) {
+
+        expenses[i] = prompt('Введите обязательную статью расходов?', 'газ');
+
+        do { rightSum = prompt('Во сколько это обойдется ' + expenses[i] + '?'); }
+        while (!isNumber(rightSum));
+
+        sum += parseFloat(rightSum);
+    }
+
+    return sum;
 }
+
+
+
+
+
 
 
 // Объявить функцию getTargetMonth.
@@ -25,16 +58,21 @@ function getExpensesMonth(costs1, consts2) {
 
 function getTargetMonth(accumulatedMonthP, missionP) {
 
-    return missionP / accumulatedMonthP;
+    let period = missionP / accumulatedMonthP;
 
+    if (period <= 0) {
+        
+        return "Цель не будет достигнута";
+    }
+    return "Вы достигните своей цели через: " + Math.floor(period) + " месяцев";
 
 }
 //Объявить функцию getAccumulatedMonth. 
 //Функция возвращает Накопления за месяц (Доходы минус расходы)
 
-function getAccumulatedMonth(moneyP, cost1, cost2) {
+function getAccumulatedMonth(moneyP, expensesAmaunt) {
 
-    return moneyP - getExpensesMonth(cost1, cost2);
+    return moneyP - expensesAmaunt;
 
 }
 
@@ -74,7 +112,7 @@ function getStatusIncome(budgetDayP) {
 
 
 //Общие данные
-let money = 2100,
+let money,
     income = 'Аренда',
     addExpenses = 'интернет, аренда, машина',
     deposit = true,
@@ -83,15 +121,14 @@ let money = 2100,
 
 
 //Расходы и Накопления
-let expenses1,
-    amaunt1,
-    expenses2,
-    amaunt2,
-    accumulatedMonth,
-    budgetDay;
+let accumulatedMonth,
+    budgetDay,
+    expensesAmaunt,
+    addExpensesArr,
+    expenses = [];
 
 
-let addExpensesArr = addExpenses.split(', ');
+
 
 
 
@@ -99,27 +136,25 @@ let addExpensesArr = addExpenses.split(', ');
 
 //*******************************ВЗАИМОДЕЙСТВИЕ С ПОЛЬЗОВАТЕЛЕМ************************* */
 // Спрашиваем у пользователя “Ваш месячный доход?” и результат сохраняем в переменную money
-money = parseFloat(prompt('Напишите числом ваш месячный доход', 0));
+money = start();
 
 /*Спросить у пользователя “Перечислите возможные расходы за 
 рассчитываемый период через запятую” сохранить в переменную addExpenses (пример: "Квартплата, проездной, кредит")*/
 addExpenses = prompt('Перечислите возможные расходы за рассчитываемый период через запятую', 'кураторство');
-
+addExpensesArr = addExpenses.split(', ');
 
 /*Спросить у пользователя “Есть ли у вас депозит в банке?” 
 и сохранить данные в переменной deposit (булево значение true/false)*/
 deposit = confirm('Есть ли в у вас депозит в банке?');
 
 
-// Спросить у пользователя по 2 раза каждый вопрос и записать ответы в разные переменные 
-expenses1 = prompt('Введите обязательную статью расходов?', 'газ');
-amaunt1 = parseFloat(prompt('Во сколько это обойдется?', 1000));
+// Спросить у пользователя по 2 раза каждый вопрос и записать ответы 
 
-expenses2 = prompt('Введите обязательную статью расходов?', 'вода');
-amaunt2 = parseFloat(prompt('Во сколько это обойдется?', 1000));
+expensesAmaunt = getExpensesMonth();
 
 
-accumulatedMonth = getAccumulatedMonth(money,amaunt1,amaunt2);
+
+accumulatedMonth = getAccumulatedMonth(money, expensesAmaunt);
 //*******************************КОНЕЦ ВЗАИМОДЕЙСТВИЯ С ПОЛЬЗОВАТЕЛЕМ************************* */
 
 
@@ -127,14 +162,19 @@ accumulatedMonth = getAccumulatedMonth(money,amaunt1,amaunt2);
 
 //*******************************ВЫВОД В КОНСОЛЬ************************* */
 
+
+
+
 //Типы данных
 getType(money);
 getType(income);
 getType(deposit);
 
 
-// Расходы за месяц вызов getExpensesMonth
-console.log("Расходы за месяц: " + getExpensesMonth(amaunt1, amaunt2));
+// Расходы за месяц
+
+
+console.log("Расходы за месяц: " + expensesAmaunt);
 
 
 // Вывод возможных расходов в виде массива (addExpenses)
@@ -142,7 +182,7 @@ console.log(addExpensesArr);
 
 
 //Cрок достижения цели в месяцах (результат вызова функции getTargetMonth)
-console.log("Вы достигните своей цели через: "  + getTargetMonth(accumulatedMonth, mission) + " месяцев" );
+console.log(getTargetMonth(accumulatedMonth, mission));
 
 // budgetDay высчитываем исходя из значеесячного накопления (accumulatedMonth)
 
