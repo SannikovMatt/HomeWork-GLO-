@@ -13,13 +13,9 @@ function cutString(someString) {
 
         alert('Введена не строка');
         return;
-    }
+    }else  if (someString.length > 30) {
 
-    //Если строка более 30 знаков - 
-    //то после 30го символа часть текста скрывается и вместо них появляются три точки (...)
-    if (someString.length > 30) {
-
-        someString += someString.substring(0, 30) + '...   ';
+        someString = someString.substring(0, 30) + '...   ';
     }
     //— В полученной (как аргумент) строке функция должна убрать все пробелы в начале и в конце
     someString = someString.trim();
