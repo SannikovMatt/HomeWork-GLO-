@@ -30,12 +30,9 @@ function fieldsValidation(question, neededType) {
 
         do {
             itemToValid = prompt(question[0], question[1]);
-
             if (itemToValid === null) { return; }
         }
         while (!isNumber(itemToValid));
-
-
         return itemToValid;
     }
 
@@ -43,11 +40,8 @@ function fieldsValidation(question, neededType) {
 
         do {
             itemToValid = prompt(question[0], question[1]);
-
-            if (itemToValid === null) { return; }
-        }
+            if (itemToValid === null) { return; }        }
         while (typeof itemToValid !== typeof ("string") || !isNaN(itemToValid));
-
 
         return itemToValid;
     }
@@ -81,10 +75,7 @@ let appData = {
             let itemIncome,
                 cashIncome;
 
-
-
-            itemIncome = fieldsValidation(['Какой у вас дополнительный заработок', 'фриланс'], 'string');
-
+           itemIncome = fieldsValidation(['Какой у вас дополнительный заработок', 'фриланс'], 'string');
             cashIncome = fieldsValidation(['Сколько вы зарабатываете на  ' + itemIncome + ' ?', 10000], 1);
 
             appData.income[itemIncome] = cashIncome;
@@ -92,8 +83,9 @@ let appData = {
         }
 
 
-        appData.addExpenses = prompt('Перечислите возможные расходы за рассчитываемый период через запятую', 'кураторство');
+        appData.addExpenses = prompt('Перечислите возможные расходы за рассчитываемый период через запятую', 'кураторство, фриланс,такси');
         appData.addExpensesArr = appData.addExpenses.split(', ');
+
         appData.deposit = confirm('Есть ли в у вас депозит в банке?');
 
 
@@ -221,4 +213,4 @@ appData.getStatusIncome();
 
 //for(let key in appData){console.log("Ключ: " + key + " Значение "+appData[key]);}
 
-console.log(appData.income);
+console.log();
