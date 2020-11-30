@@ -11,22 +11,11 @@ function isNumber(n) {
 
 }
 
-let money;
-function start() {
-    let money;
-    do { money = parseFloat(prompt('Напишите числом ваш месячный доход')); }
-    while (!isNumber(money));
-
-    return money;
-
-}
-
-
 function fieldsValidation(question, neededType) {
 
     let itemToValid;
 
-    if (isNumber(neededType)) {
+    if (neededType === 'number') {
 
         do {
             itemToValid = prompt(question[0], question[1]);
@@ -36,11 +25,12 @@ function fieldsValidation(question, neededType) {
         return itemToValid;
     }
 
-    if (typeof neededType === typeof 'string') {
+    if (neededType ===  'string') {
 
         do {
             itemToValid = prompt(question[0], question[1]);
-            if (itemToValid === null) { return; }        }
+            if (itemToValid === null) { return; }
+        }
         while (typeof itemToValid !== typeof ("string") || !isNaN(itemToValid));
 
         return itemToValid;
@@ -50,6 +40,19 @@ function fieldsValidation(question, neededType) {
 
 
 }
+
+
+let money;
+function start() {
+    let money;
+    money = fieldsValidation(['Напишите числом ваш месячный доход', 50000],'number'); 
+    
+
+    return money;
+
+}
+
+
 
 let appData = {
 
@@ -62,7 +65,7 @@ let appData = {
     moneyDeposit: 0,
     mission: 10000,
     period: 12,
-    budget: 0,
+    budget: money,
     budgetDay: 0,
     budgetMonth: 0,
     expensesMonth: 0,
@@ -75,16 +78,18 @@ let appData = {
             let itemIncome,
                 cashIncome;
 
-           itemIncome = fieldsValidation(['Какой у вас дополнительный заработок', 'фриланс'], 'string');
-            cashIncome = fieldsValidation(['Сколько вы зарабатываете на  ' + itemIncome + ' ?', 10000], 1);
+            itemIncome = fieldsValidation(['Какой у вас дополнительный заработок', 'фриланс'], 'string');
+            cashIncome = fieldsValidation(['Сколько вы зарабатываете на  ' + itemIncome + ' ?', 10000], 'number');
 
             appData.income[itemIncome] = cashIncome;
 
         }
 
+        let expenses;
+        expenses = prompt('Перечислите возможные расходы за рассчитываемый период через запятую', 'кураторство, фриланс,такси');
+        appData.addExpensesArr = expenses.split(',');
 
-        appData.addExpenses = prompt('Перечислите возможные расходы за рассчитываемый период через запятую', 'кураторство, фриланс,такси');
-        appData.addExpensesArr = appData.addExpenses.split(', ');
+        
 
         appData.deposit = confirm('Есть ли в у вас депозит в банке?');
 
@@ -94,9 +99,9 @@ let appData = {
         for (let i = 0; i < 2; i++) {
 
 
-            let answer = fieldsValidation(['Введите обязательную статью расходов?', 'газ'], 'газ');
+            let answer = fieldsValidation(['Введите обязательную статью расходов?', 'газ'], 'string');
 
-            rightSum = fieldsValidation(['Во сколько это обойдется ' + answer + '?'], 1);
+            rightSum = fieldsValidation(['Во сколько это обойдется ' + answer + '?', 550], 'number');
 
 
 
@@ -121,7 +126,7 @@ let appData = {
 
     getBudget: function () {
 
-        appData.budgetMonth = money - appData.getExpensesMonth();
+        appData.budgetMonth = appData.budget - appData.getExpensesMonth();
         appData.budgetday = appData.budgetMonth / 30;
 
 
@@ -171,9 +176,9 @@ let appData = {
 
         if (appData.deposit) {
 
-            appData.percentDeposit = fieldsValidation(['Какой годовой процент ?', 10], 1);
+            appData.percentDeposit = fieldsValidation(['Какой годовой процент ?', 10], 'number');
 
-            appData.moneyDeposit = fieldsValidation(['Какая сумма заложена ', 10000], 1);
+            appData.moneyDeposit = fieldsValidation(['Какая сумма заложена ', 10000], 'number');
 
         }
     },
@@ -213,4 +218,20 @@ appData.getStatusIncome();
 
 //for(let key in appData){console.log("Ключ: " + key + " Значение "+appData[key]);}
 
-console.log();
+
+let temp = '';
+for (let item of appData.addExpensesArr) {
+    item = item.trim();
+    if (appData.addExpensesArr[appData.addExpensesArr.length-1] === item) {
+
+        temp += item.substring(0, 1).toUpperCase() + item.substring(1);
+
+    } else {
+        temp += item.substring(0, 1).toUpperCase() + item.substring(1) + ", ";
+    }
+
+
+
+
+}
+console.log(temp);
