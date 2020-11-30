@@ -22,6 +22,40 @@ function start() {
 }
 
 
+function fieldsValidation(question, neededType) {
+
+    let itemToValid;
+
+    if (isNumber(neededType)) {
+
+        do {
+            itemToValid = prompt(question[0], question[1]);
+
+            if (itemToValid === null) { return; }
+        }
+        while (!isNumber(itemToValid));
+
+
+        return itemToValid;
+    }
+
+    if (typeof neededType === typeof 'string') {
+
+        do {
+            itemToValid = prompt(question[0], question[1]);
+
+            if (itemToValid === null) { return; }
+        }
+        while (typeof itemToValid !== typeof ("string") || !isNaN(itemToValid));
+
+
+        return itemToValid;
+    }
+
+
+
+
+}
 
 let appData = {
 
@@ -30,6 +64,8 @@ let appData = {
     expenses: {},
     addExpensesArr: [],
     deposit: false,
+    percentDeposit: 0,
+    moneyDeposit: 0,
     mission: 10000,
     period: 12,
     budget: 0,
@@ -39,6 +75,21 @@ let appData = {
     asking: function () {
 
         money = start();
+
+        if (confirm('Есть ли у вас дополнительный доход')) {
+
+            let itemIncome,
+                cashIncome;
+
+
+
+            itemIncome = fieldsValidation(['Какой у вас дополнительный заработок', 'фриланс'], 'string');
+
+            cashIncome = fieldsValidation(['Сколько вы зарабатываете на  ' + itemIncome + ' ?', 10000], 1);
+
+            appData.income[itemIncome] = cashIncome;
+
+        }
 
 
         appData.addExpenses = prompt('Перечислите возможные расходы за рассчитываемый период через запятую', 'кураторство');
@@ -51,13 +102,14 @@ let appData = {
         for (let i = 0; i < 2; i++) {
 
 
-            let answer = prompt('Введите обязательную статью расходов?', 'газ');
+            let answer = fieldsValidation(['Введите обязательную статью расходов?', 'газ'], 'газ');
+
+            rightSum = fieldsValidation(['Во сколько это обойдется ' + answer + '?'], 1);
 
 
-            this.expenses[answer] = rightSum;
 
-            do { rightSum = prompt('Во сколько это обойдется ' + answer + '?'); }
-            while (!isNumber(rightSum));
+
+
             this.expenses[answer] = rightSum;
 
         }
@@ -122,7 +174,22 @@ let appData = {
         }
 
 
+    },
+    getInfoDeposit: function () {
+
+        if (appData.deposit) {
+
+            appData.percentDeposit = fieldsValidation(['Какой годовой процент ?', 10], 1);
+
+            appData.moneyDeposit = fieldsValidation(['Какая сумма заложена ', 10000], 1);
+
+        }
+    },
+    calcSavedMoney: function () {
+        return appData.budgetMonth * appData.period;
+
     }
+
 
 
 
@@ -150,7 +217,8 @@ appData.getStatusIncome();
 
 
 
-console.log("Наша программа включает в себя данные: " );
+//console.log("Наша программа включает в себя данные: " );
 
-for(let key in appData){console.log("Ключ: " + key + " Значение "+appData[key]);}
+//for(let key in appData){console.log("Ключ: " + key + " Значение "+appData[key]);}
 
+console.log(appData.income);
