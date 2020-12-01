@@ -1,25 +1,31 @@
-let num = 266219;
-let numStr = num.toString();//Переводим число в строку
-let sum =0;
+const output1 = document.querySelector('.output1');
+const output2 = document.querySelector('.output2');
+
+
+let fieldA = output1.innerHTML = 'gggggg';
+let fieldB = output2.innerHTML = '';
+
+let today = new Date();
+
+let date = {
+
+    day: today.getDay(),
+    date: today.getDate(),
+    year: today.getFullYear(),
+    hour: today.getHours(),
+    min: today.getMinutes(),
+    sec: today.getSeconds()
+};
+
+
+console.log(date.day + '-' + date.date + '-' + date.year + '-' + date.hour + '-' + date.min + '-' + date.sec);
+
+
+function firstType(date) {
 
 
 
-for (let i = 0 ; numStr.length > i ; i++)// Перебираем строку умножаем числа.
-{
-    if(sum == 0) sum = +numStr[i];
-    else sum *= +numStr[i];
 
 }
 
-console.log(sum);//Полученное число
-
-
-let changedNum = sum ** 3; //Возводим число в 3 степень
-console.log(changedNum);
-
-
-
-changedNum = changedNum.toString();
-
-console.log(changedNum.substring(0,2));//Выводим первые 2 числа
-
+fieldA += date.day + date.date + date.year + date.hour + date.min + date.sec; 
