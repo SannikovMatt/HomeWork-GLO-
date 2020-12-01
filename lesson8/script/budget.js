@@ -25,7 +25,7 @@ function fieldsValidation(question, neededType) {
         return itemToValid;
     }
 
-    if (neededType ===  'string') {
+    if (neededType === 'string') {
 
         do {
             itemToValid = prompt(question[0], question[1]);
@@ -45,8 +45,8 @@ function fieldsValidation(question, neededType) {
 let money;
 function start() {
     let money;
-    money = fieldsValidation(['Напишите числом ваш месячный доход', 50000],'number'); 
-    
+    money = fieldsValidation(['Напишите числом ваш месячный доход', 50000], 'number');
+
 
     return money;
 
@@ -86,10 +86,12 @@ let appData = {
         }
 
         let expenses;
-        expenses = prompt('Перечислите возможные расходы за рассчитываемый период через запятую', 'кураторство, фриланс,такси');
-        appData.addExpensesArr = expenses.split(',');
+        expenses = fieldsValidation(['Перечислите возможные расходы за рассчитываемый период через запятую', 'кураторство, фриланс,такси'], 'string');
+        if (expenses) {
+            appData.addExpensesArr = expenses.split(',');
+        }
 
-        
+
 
         appData.deposit = confirm('Есть ли в у вас депозит в банке?');
 
@@ -222,7 +224,7 @@ appData.getStatusIncome();
 let temp = '';
 for (let item of appData.addExpensesArr) {
     item = item.trim();
-    if (appData.addExpensesArr[appData.addExpensesArr.length-1] === item) {
+    if (appData.addExpensesArr[appData.addExpensesArr.length - 1] === item) {
 
         temp += item.substring(0, 1).toUpperCase() + item.substring(1);
 
