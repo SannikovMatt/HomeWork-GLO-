@@ -2,8 +2,6 @@
 
 
 
-
-
 //************************************************Функции 
 
 //
@@ -121,12 +119,12 @@ let appData = {
     expensesMonth: 0,
     start: function (e) {
 
-    
-       if(salaryAmaunt.value === ''){
-        e.preventDefault();
-        return;
-       }
-       
+
+        if (salaryAmaunt.value === '') {
+            e.preventDefault();
+            return;
+        }
+
 
         appData.budget = +salaryAmaunt.value;
 
@@ -162,8 +160,14 @@ let appData = {
 
 
         let cloneExpensesItem = expensesItems[0].cloneNode(true);
+
+        cloneExpensesItem.querySelector('.expenses-title').value = '';
+        cloneExpensesItem.querySelector('.expenses-amount').value = '';
         expensesItems[0].parentNode.insertBefore(cloneExpensesItem, btnPlusExpensesAdd);
+        appData.keyEvents();
         expensesItems = document.querySelectorAll('.expenses-items');
+
+
         if (expensesItems.length === 3) {
 
             btnPlusExpensesAdd.style.display = 'none';
@@ -187,8 +191,20 @@ let appData = {
     },
     addIncomeBlock: function () {
 
-        let cloneIncomeItem = incomeItems[0].cloneNode(true);
+        let cloneIncomeItem = incomeItems[0].cloneNode(true);    
+       
+
+
+
+        let title = cloneIncomeItem.querySelector('.income-title').value = '';
+        let amount = cloneIncomeItem.querySelector('.income-amount').value = '';
+
+        
+
+
+
         incomeItems[0].parentNode.insertBefore(cloneIncomeItem, btnPlusIncomeAdd);
+        appData.keyEvents();
         incomeItems = document.querySelectorAll('.income-items');
         if (incomeItems.length === 3) {
 
@@ -213,23 +229,7 @@ let appData = {
 
 
 
-        // if (confirm('Есть ли у вас дополнительный доход')) {
 
-        //     let itemIncome,
-        //         cashIncome;
-
-        //     itemIncome = fieldsValidation(['Какой у вас дополнительный заработок', 'фриланс'], 'string');
-        //     cashIncome = fieldsValidation(['Сколько вы зарабатываете на  ' + itemIncome + ' ?', 10000], 'number');
-
-        //     appData.income[itemIncome] = cashIncome;
-
-        // } 
-
-        // for(let key in appData.income){
-
-        //     appData.incomeMonth += +appData.income[key];
-
-        // }
     },
     getAddExpenses: function () {
 
@@ -255,20 +255,6 @@ let appData = {
         });
 
     },
-    asking: function () {
-
-        appData.start();
-
-
-
-
-
-
-
-
-    },
-
-
     getExpensesMonth: function () {
         let sum = 0;
 
@@ -343,17 +329,66 @@ let appData = {
     changePeriod: function () {
         periodCounter.innerHTML = periodSelect.value;
 
+    },
+    checkString: function (e) {
+
+
+        let pattern = /[А-Яа-яЁё0-9\ \, \.]/;
+
+        let key = String.fromCharCode(e.charCode);
+        if (key.search(pattern) === -1) {
+
+            e.preventDefault();
+        }
+    },
+    checkNum: function (e) {
+        let pattern = /[0-9]/;
+
+        let key = String.fromCharCode(e.charCode);
+        if (key.search(pattern) === -1) {
+
+            e.preventDefault();
+        }
+
+    },
+    keyEvents: function () {
+
+        let num = document.querySelectorAll('[placeholder]');
+
+        num.forEach(function (item) {
+
+            if (item.placeholder === 'Сумма') {
+                item.addEventListener('keypress', appData.checkNum);
+            }
+            if (item.placeholder === 'Наименование') {
+                item.addEventListener('keypress', appData.checkString);
+            }
+        });
+
+
+
     }
 
 };
 
 
-
+appData.keyEvents();
 
 calculate.addEventListener('click', appData.start);
 btnPlusExpensesAdd.addEventListener('click', appData.addExpensesBlock);
 btnPlusIncomeAdd.addEventListener('click', appData.addIncomeBlock);
 periodSelect.addEventListener('input', appData.changePeriod);
+
+
+
+targetAmaunt.addEventListener('keypress', appData.checkNum);
+salaryAmaunt.addEventListener('keypress', appData.checkNum);
+
+
+
+
+
+
 
 
 
