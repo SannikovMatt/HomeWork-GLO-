@@ -119,8 +119,9 @@ let appData = {
     budgetDay: 0,
     budgetMonth: 0,
     expensesMonth: 0,
-    start: function () {
+    start: function (e) {
 
+    
        if(salaryAmaunt.value === ''){
         e.preventDefault();
         return;
@@ -347,14 +348,12 @@ let appData = {
 };
 
 
+
+
 calculate.addEventListener('click', appData.start);
 btnPlusExpensesAdd.addEventListener('click', appData.addExpensesBlock);
 btnPlusIncomeAdd.addEventListener('click', appData.addIncomeBlock);
 periodSelect.addEventListener('input', appData.changePeriod);
-
-
-
-
 
 
 
