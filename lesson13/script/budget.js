@@ -361,7 +361,7 @@ let appData = {
                 item.addEventListener('keypress', appData.checkNum);
             }
             if (item.placeholder === 'Наименование') {
-                item.addEventListener('focus', appData.checkString);
+                item.addEventListener('keypress', appData.checkString);
             }
         });
 
