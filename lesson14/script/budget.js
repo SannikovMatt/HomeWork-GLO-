@@ -2,6 +2,8 @@
 
 
 
+
+
 const calculate = document.getElementById('start');
 
 let btnPlusIncomeAdd = document.getElementsByTagName('button')[0];
@@ -74,6 +76,8 @@ function AppData() {
         this.budgetMonth = 0,
         this.expensesMonth = 0;
 }
+
+
 AppData.prototype.start = function (e) {
 
 
@@ -231,15 +235,18 @@ AppData.prototype.getIncomeMonth = function () {
     }
 
 };
+
 AppData.prototype.getBudget = function () {
 
     this.budgetMonth = this.budget + this.incomeMonth - this.getExpensesMonth();
     this.budgetDay = Math.floor(this.budgetMonth / 30);
 
 };
+
 AppData.prototype.getTargetMonth = function () {
     return +targetAmaunt.value / this.budgetMonth;
 };
+
 AppData.prototype.getStatusIncome = function () {
     // Написать конструкцию условий (расчеты приведены в рублях)
     let budgetDayP = this.budgetday;
@@ -269,11 +276,11 @@ AppData.prototype.getStatusIncome = function () {
 };
 AppData.prototype.getInfoDeposit = function () {
 
-    if (this.deposit) {
+    if (appData.deposit) {
 
-        this.percentDeposit = this.fieldsValidation(['Какой годовой процент ?', 10], 'number');
+        appData.percentDeposit = fieldsValidation(['Какой годовой процент ?', 10], 'number');
 
-        this.moneyDeposit = this.fieldsValidation(['Какая сумма заложена ', 10000], 'number');
+        appData.moneyDeposit = fieldsValidation(['Какая сумма заложена ', 10000], 'number');
 
     }
 };
@@ -402,11 +409,14 @@ AppData.prototype.clearData = function () {
 
 
 };
+
+
 AppData.prototype.isNumber = function (n) {
 
     return !isNaN(parseFloat(n)) && isFinite(n);
 
-};
+}
+
 AppData.prototype.fieldsValidation = function (question, neededType) {
 
     let itemToValid;
@@ -417,7 +427,7 @@ AppData.prototype.fieldsValidation = function (question, neededType) {
             itemToValid = prompt(question[0], question[1]);
             if (itemToValid === null) { return; }
         }
-        while (!this.isNumber(itemToValid));
+        while (!isNumber(itemToValid));
         return itemToValid;
     }
 
@@ -436,6 +446,7 @@ AppData.prototype.fieldsValidation = function (question, neededType) {
 
 
 };
+
 AppData.prototype.eventListeners = function () {
     let start = this.start;
     let clearData = this.clearData;
