@@ -148,15 +148,12 @@ AppData.prototype.getAddIncExp = function () {
     let count = item => {
 
 
-
-
         let str = item.className.split('_')[1];
 
         item.querySelectorAll('input').forEach((input) => {
 
             let temp = input.value.trim();
             if (temp !== '') {
-                console.log(temp);
                 let upCase = 'add' + str.substring(0, 1).toUpperCase() + str.substring(1);
 
                 _this[upCase].push(temp);
