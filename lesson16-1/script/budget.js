@@ -45,6 +45,71 @@ let expensesItems = document.querySelectorAll('.expenses-items'),
     incomeItems = document.querySelectorAll('.income-items');
 
 
+const getCookie = () => {
+
+    let str = document.cookie,
+        arr = str.split('; '),
+        map = new Map();
+
+    for (let i = 0; arr.length > i; i++) {
+
+        let propirties = arr[i].split('=');
+
+        map.set(propirties[0], propirties[1]);
+
+
+
+    }
+
+    return map;
+};
+const saveData = (obj) => {
+
+
+    const setCookie = (key, value, date, path, domain, secure) => {
+        let cookieStr = key + '=' + value;
+        if (date) {
+            let expires = date.toGMTString();
+            cookieStr += '; expires=' + expires;
+
+        }
+
+        cookieStr += path ? '; path=' + path : '';
+        cookieStr += domain ? '; domain=' + domain : '';
+        cookieStr += secure ? '; secure=' + secure : '';
+
+        document.cookie = cookieStr;
+    };
+
+
+    for (let prop in obj) {
+        let value = obj[prop];
+        let valueStr = JSON.stringify(value);
+
+        setCookie(prop, valueStr, new Date('2022/10/10'));
+    }
+    setCookie('IsLoad', 'true', new Date('2022/10/10'));
+    window.localStorage.setItem('data', JSON.stringify(obj));
+
+};
+const compareData = (oldData) => {
+    let map = getCookie();
+
+
+
+    for (let prop in oldData) {
+        if (!map.has(prop)) {
+            window.localStorage.clear();
+            return false;
+        }
+    }
+
+    return true;
+
+
+
+
+};
 
 
 class AppData {
@@ -77,20 +142,16 @@ class AppData {
 
         this.budget = +salaryAmaunt.value;
 
-
-
-
         this.getIncExp();
         this.getIncExpMonth();
         this.getAddIncExp();
-this.getDepositInfo();
-
-        this.getBudget();
-        this.showResult();
-        this.blockInput();
         this.getDepositInfo();
 
+        this.getBudget();
 
+        this.getDepositInfo();
+        this.showResult();
+        this.blockInput();
     }
     showResult() {
 
@@ -102,6 +163,8 @@ this.getDepositInfo();
         targetMonthResult.value = Math.ceil(this.getTargetMonth());
         incomePeriodResult.value = this.calcPeriod();
         periodSelect.addEventListener('change', this.showResult.bind(this));
+
+        saveData(this);
 
 
 
@@ -200,7 +263,7 @@ this.getDepositInfo();
 
     getBudget() {
 
-        const monthDeposit = this.moneyDeposit * (this.percentDeposit/100);
+        const monthDeposit = this.moneyDeposit * (this.percentDeposit / 100);
 
         this.budgetMonth = this.budget + this.incomeMonth - this.expensesMonth + monthDeposit;
         this.budgetDay = Math.floor(this.budgetMonth / 30);
@@ -303,7 +366,7 @@ this.getDepositInfo();
                 btnPlusExpensesAdd.removeEventListener('click', this.addExpensesBlock);
                 btnPlusIncomeAdd.removeEventListener('click', this.addIncomeBlock);
                 depositBank.disabled = true;
-                
+
 
             }
 
@@ -312,6 +375,7 @@ this.getDepositInfo();
     clearData() {
 
         let inputs = document.getElementsByTagName('input');
+        window.localStorage.clear();
 
         for (const field of inputs) {
 
@@ -334,10 +398,12 @@ this.getDepositInfo();
             this.budgetDay = 0,
             this.budgetMonth = 0,
             this.expensesMonth = 0;
+
+
         calculate.style.display = 'block';
         clear.style.display = 'none';
 
-        depositBank.disabled = false;      
+        depositBank.disabled = false;
         depositCheck.checked = false;
         depositBank.style.display = 'none';
         depositAmount.style.display = 'none';
@@ -399,39 +465,39 @@ this.getDepositInfo();
 
     }
 
-    changePercent(){
+    changePercent() {
 
 
         let valueSelect = this.value;
-        if(valueSelect === 'other'){
+        if (valueSelect === 'other') {
             depositPercent.style.display = 'inline-block';
             depositPercent.value = '';
-            depositPercent.addEventListener('keypress',(e)=>{
+            depositPercent.addEventListener('keypress', (e) => {
 
                 let pattern = /[0-9]/;
 
-                if(pattern.test(e.key) && (depositPercent.value + e.key)<=100){
+                if (pattern.test(e.key) && (depositPercent.value + e.key) <= 100) {
 
-                   if(depositPercent.value > 100){
-                    e.preventDefault();
+                    if (depositPercent.value > 100) {
+                        e.preventDefault();
 
-                   }
-                   valueSelect = depositPercent.value;
+                    }
+                    valueSelect = depositPercent.value;
 
-                }else{e.preventDefault();}
-                
+                } else { e.preventDefault(); }
+
 
             });
-    }else{
-        depositPercent.style.display = 'none';
-       depositPercent.value = valueSelect;
+        } else {
+            depositPercent.style.display = 'none';
+            depositPercent.value = valueSelect;
+        }
+
     }
 
-}
+    getDepositInfo() {
 
-    getDepositInfo(){
-
-        if(this.deposit){
+        if (this.deposit) {
 
             this.percentDeposit = depositPercent.value;
             this.moneyDeposit = depositAmount.value;
@@ -472,21 +538,29 @@ this.getDepositInfo();
         periodSelect.addEventListener('input', this.changePeriod.bind(this));
         clear.addEventListener('click', this.clearData.bind(this));
         depositCheck.addEventListener('change', this.depositHandler.bind(this));
-
-
-
-
-
-
     }
 
 
 }
 
-const appData = new AppData();
+
+
+let appData = new AppData();
+
+if (localStorage.getItem('data')) {
+    let oldData = JSON.parse(localStorage.getItem('data'));
+    if (compareData(oldData)) {
+        Object.assign(appData, oldData);
+        appData.showResult();
+        appData.blockInput();
+    }
+
+
+
+}
+
 
 window.onload = appData.eventListeners();
-
 
 
 
